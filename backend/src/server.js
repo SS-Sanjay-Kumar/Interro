@@ -7,15 +7,18 @@ import uploadRoutes from './routes/uploadRoutes.js';
 const app = express();
 const PORT = process.env.PORT;
 
-// middlewares
+// * MIDDLEWARES
 app.use(express.json());
 
+// * ROUTES
 app.get("/api/health", (req, res) => {
     res.json({ project: "Interro", status: "ok" });
 });
+
 // route for transcribing yt videos
 app.use("/api/transcript", transcriptRoutes);
 app.use("/api/upload", uploadRoutes);
+
 // todo: implement auto delete files after extracting content
 
 app.listen(PORT, () => {
