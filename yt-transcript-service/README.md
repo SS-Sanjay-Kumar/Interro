@@ -4,5 +4,5 @@
 
 ### 1. To run
 ```bash
-python -m uvicorn main:app --reload
+python -m uvicorn main:app --port 8000 --reload
 ```

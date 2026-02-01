@@ -3,6 +3,7 @@ import dotenv from 'dotenv/config.js';
 
 import transcriptRoutes from './routes/transcriptRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import resourceRoutes from './routes/resourceRoutes.js'
 
 const app = express();
 const PORT = process.env.PORT;
@@ -18,6 +19,7 @@ app.get("/api/health", (req, res) => {
 // route for transcribing yt videos
 app.use("/api/transcript", transcriptRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/resource", resourceRoutes);
 
 // todo: implement auto delete files after extracting content
 
