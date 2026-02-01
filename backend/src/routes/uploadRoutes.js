@@ -18,7 +18,7 @@ router.post("/", fileUploader.single("file"), (req, res) => {
     return res.status(200).json({
         success: true,
         message: "File uploaded successfully",
-        filePath: req.file.path,
+        // filePath: req.file.path,
     });
 }
 );

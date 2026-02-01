@@ -16,6 +16,7 @@ app.get("/api/health", (req, res) => {
 // route for transcribing yt videos
 app.use("/api/transcript", transcriptRoutes);
 app.use("/api/upload", uploadRoutes);
+// todo: implement auto delete files after extracting content
 
 app.listen(PORT, () => {
     console.log("Server running at port", PORT);
