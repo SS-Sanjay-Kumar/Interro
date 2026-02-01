@@ -1,6 +1,5 @@
 # YT transcript service
 
-
 ## Commands
 
 ### 1. To run
