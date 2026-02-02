@@ -1,7 +1,9 @@
 import express from "express";
 import { fileUploader } from "../middleware/multer.middleware.js";
+import { extractTextFromPDF } from "../controllers/uploadController.js";
 
 const router = express.Router();
+// /api/upload
 
 // fileUploader.single("file") -> This tells Multer:
 // * Look for a multipart form field called file.
@@ -18,9 +20,11 @@ router.post("/", fileUploader.single("file"), (req, res) => {
     return res.status(200).json({
         success: true,
         message: "File uploaded successfully",
-        // filePath: req.file.path,
+        filePath: req.file.path,
     });
 }
 );
+
+router.get("/extract", extractTextFromPDF)
 
 export default router;
