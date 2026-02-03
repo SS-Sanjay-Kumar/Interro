@@ -7,10 +7,13 @@ Upload PDFs, YouTube videos, or web resources, and Interro analyzes the content 
 Built to solve a problem I faced personally: knowing whether I truly learned something, not just consumed it.
 
 Completed so far:
--> url-ingest-service : get resourceURL from the user, get it using httpx and extract only the text content using bs4
--> yt-transcript-service : get youtube video id from the user, get the transcript using yt-transcript-api
--> handling pdf uploads using multer and save it locally in uploads/ folder.
+- [x] url-ingest-service : get resourceURL from the user, get it using httpx and extract only the text content using bs4
+- [x] yt-transcript-service : get youtube video id from the user, get the transcript using yt-transcript-api
+- [x] handling pdf uploads using multer and save it locally in uploads/ folder.
 
 PRIORITY Need to do:
--> Extract text content from the uploaded pdf and also auto delete it after.
--> feed all 3 of the data to AI
+- [x] extract text content from the uploaded pdf and also auto delete it after.
+- [ ] feed all 3 of the data to AI
+- [ ] refactor the code to improve its quality
+- [ ] add support for a handful to file types such as doc, txt etc...
+- [ ] extract tablular data, images etc from files  
