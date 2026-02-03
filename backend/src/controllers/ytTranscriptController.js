@@ -11,6 +11,6 @@ export const getVideoTranscript = async (req, res) => {
 
     } catch (error) {
         console.error("Error in getVideoTranscript controller:", error);
-        return res.status(500){ message: "Internal Server Error" };
+        return res.status(500).json({ message: "Internal Server Error" });
     }
 }
