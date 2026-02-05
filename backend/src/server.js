@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv/config.js';
 
+import {make_llm_call} from './lib/llm.js';
 import transcriptRoutes from './routes/transcriptRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import resourceRoutes from './routes/resourceRoutes.js'
@@ -20,6 +21,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/transcript", transcriptRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/resource", resourceRoutes);
+make_llm_call();
 
 // todo: implement auto delete files after extracting content
 
