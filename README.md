@@ -13,6 +13,10 @@ Completed so far:
 - [x] handling pdf uploads using multer and save it locally in uploads/ folder.
 - [x] extract text content from the uploaded pdf and also auto delete it after.
 
+IMPORTANT:
+ - Instead of having nodejs and express as backend, choosing fastapi/flask (or any python based frameworks) would make a lot more sense.
+   > So go with fastapi, refactor everything
+
 PRIORITY Need to do:
 
 - [ ] feed all 3 of the data to AI
