@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 import pymupdf
 
-
 app = FastAPI()
 
 @app.get("/api/extract-data")

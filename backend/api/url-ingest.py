@@ -1,18 +1,19 @@
-from fastapi import FastAPI, status, HTTPException
+from fastapi import APIRouter, status, HTTPException
 import httpx
 from readability import Document
 from bs4 import BeautifulSoup
 
-app = FastAPI()
+router = APIRouter()
+# prefix: /api/v1
 
-@app.get("/api/health")
+@router.get("/health")
 def check_url_ingest_service_health():
     return {
         "service": "url-ingest-service",
         "status" : "ok"
     }
 
-@app.get("/api/url-ingest", status_code=status.HTTP_200_OK)
+@router.get("/url-ingest", status_code=status.HTTP_200_OK)
 async def get_url_ingest(resourceURL: str):
     async with httpx.AsyncClient() as client: 
         # * AsyncClient -> used to keep the TCP connections open
