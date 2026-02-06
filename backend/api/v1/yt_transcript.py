@@ -1,16 +1,9 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 from youtube_transcript_api import YouTubeTranscriptApi
 
-app = FastAPI()
+router = APIRouter()
 
-@app.get("/api/yt-transcript-service/health")
-def check_transcript_service_health():
-    return {
-        "service": "yt-transcript-service",
-        "status": "ok"
-    }
-
-@app.get("/api/yt-transcript-service/{videoId}")
+@router.get("get-transcript/{videoId}")
 def get_transcription_from_video_id(videoId):
 
     ytt_api = YouTubeTranscriptApi()
