@@ -26,6 +26,10 @@ archive.zip
 .*.sw?
 .cache
 
+# Ignore all .env files and variations
+.env
+.env.*
+
 # macOS
 .DS_Store
 
