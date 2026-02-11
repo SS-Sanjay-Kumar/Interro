@@ -1,21 +1,6 @@
 from fastapi import FastAPI
-from api.v1 import uploads, url_ingest, yt_transcript
+from api.v1.router import api_v1_router
 
-app = FastAPI()
+app = FastAPI(title="Interro")
 
-app.include_router(
-    uploads.router, 
-    prefix="/api/v1/uploads", 
-    tags=["Uploads"]
-)
-
-app.include_router(
-    url_ingest.router,
-    prefix="/api/v1/url-ingest",
-    tags=["URL Ingest"]
-)
-
-app.include_router(
-    yt_transcript.router,
-    prefix="/api/v1/yt-transcript",
-)
+app.include_router(api_v1_router, prefix="/v1/api")

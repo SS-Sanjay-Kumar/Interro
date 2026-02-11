@@ -1,9 +1,10 @@
 from fastapi import APIRouter
 from youtube_transcript_api import YouTubeTranscriptApi
 
-router = APIRouter()
+ytTranscriptRouter = APIRouter()
+#  prefix=/api/v1/yt-transcript
 
-@router.get("get-transcript/{videoId}")
+@ytTranscriptRouter.get("get-transcript/{videoId}")
 def get_transcription_from_video_id(videoId):
 
     ytt_api = YouTubeTranscriptApi()
