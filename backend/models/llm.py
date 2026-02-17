@@ -1,10 +1,7 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class LLMCallRequest(BaseModel):
-    # file content
-    fileName: str | None
-    # url content
-    resourceURL: str | None
-    # yt transcript
-    ytVideoId: str | None
-
+    fileName: Optional[str] = None
+    resourceURL: Optional[str] = None
+    ytVideoId: Optional[str] = None
