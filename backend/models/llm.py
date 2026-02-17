@@ -2,9 +2,9 @@ from pydantic import BaseModel
 
 class LLMCallRequest(BaseModel):
     # file content
-    fileContent: str | None
+    fileName: str | None
     # url content
-    urlContent: str | None
+    resourceURL: str | None
     # yt transcript
-    ytTranscript: str | None
- 
+    ytVideoId: str | None
+
