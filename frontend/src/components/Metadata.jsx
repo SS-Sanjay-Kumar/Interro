@@ -1,4 +1,6 @@
 export default function Metadata({ metadata }) {
+    if (!metadata) return null;
+
     return (
 
         <div className="card bg-base-100 border border-base-300 shadow-sm hover:shadow transition mb-4">
