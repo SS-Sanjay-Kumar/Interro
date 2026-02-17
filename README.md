@@ -1,5 +1,8 @@
 # Interro
-
+### Command to Run
+```bash
+python -m uvicorn main:app --reload
+```
 **Interro** is an AI-powered learning assessment tool that generates questions strictly from the material you study.
 
 Upload PDFs, YouTube videos, or web resources, and Interro analyzes the content to ask context-aware questions—helping you test real understanding instead of memorization.
