@@ -5,9 +5,9 @@ from google import genai
 
 from models.llm import LLMCallRequest
 
-from .uploads import extract_data_from_file
-from .url_ingest import get_url_ingest
-from .yt_transcript import get_transcription_from_video_id
+from services.uploads import extract_data_from_file
+from services.url_ingest import get_url_ingest
+from services.yt_transcript import get_transcription_from_video_id
 
 load_dotenv()
 
