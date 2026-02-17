@@ -2,22 +2,23 @@ import httpx
 from readability import Document
 from bs4 import BeautifulSoup
 
+from .exceptions import ResourceURLDoesNotExist, HttpxRequestError
+
 async def get_url_ingest(resourceURL: str):
     async with httpx.AsyncClient() as client: 
         # * AsyncClient -> used to keep the TCP connections open
         # * if AsyncClient is not used, it would open and close the connection for every lookup
         try:
             response = await client.get(resourceURL)
+
             if(response.status_code!=200):
-                raise Exception("Resource Not Found")
+                raise ResourceURLDoesNotExist("Error in Requested Resource URL")
             
             doc = Document(response.text)
             soup = BeautifulSoup(doc.summary(), "html.parser")
             text = soup.get_text(separator="\n")
-            return {"url" : text}
+
+            return text
         
         except httpx.RequestError as exc:
-            raise HTTPException(
-                status_code=status.HTTP_503_SERVICE_UNAVAILABLE, 
-                detail=f"An error occurred while requesting {exc.request.url!r}."
-            )
+            raise HttpxRequestError(exc.message)
