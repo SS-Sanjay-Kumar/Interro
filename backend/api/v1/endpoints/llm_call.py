@@ -71,8 +71,8 @@ async def make_llm_call(req : LLMCallRequest):
 
         response = client.models.generate_content(
             model="gemini-3-flash-preview",
-            contents=f"Summarize the below text using analogy, max word limit 50\n {fileContent} \n{urlContent} \n{ytTranscript}"
+            contents=f"Summarize the below text using analogy and an example, max word limit 100\n {fileContent} \n{urlContent} \n{ytTranscript}"
         )
 
-        print(response.text)
+        # print(response.text)
         return {"response":response.text}
