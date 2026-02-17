@@ -7,7 +7,7 @@ urlIngestRouter = APIRouter()
 # prefix= /api/v1/url-ingest
 
 
-@urlIngestRouter.get("/url-ingest", status_code=status.HTTP_200_OK)
+@urlIngestRouter.get("/", status_code=status.HTTP_200_OK)
 async def get_url_ingest(resourceURL: str):
     async with httpx.AsyncClient() as client: 
         # * AsyncClient -> used to keep the TCP connections open

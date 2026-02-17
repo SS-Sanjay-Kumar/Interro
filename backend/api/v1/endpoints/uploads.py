@@ -24,7 +24,7 @@ async def upload_file(file: UploadFile):
         return {"message": e.args}
 
 @uploadsRouter.get("/extract-data")
-def extract_data_from_file(fileName : str):
+async def extract_data_from_file(fileName : str):
     
     filePath = f"../uploads/{fileName}"
 
