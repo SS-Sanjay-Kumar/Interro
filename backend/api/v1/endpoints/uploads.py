@@ -1,5 +1,6 @@
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, HTTPException, status
 import pymupdf, math, random, datetime
+import os
 
 uploadsRouter= APIRouter()
 #  prefix=/api/v1/uploads
@@ -12,8 +13,8 @@ async def upload_file(file: UploadFile):
 
         file_name = f"file_{p1}_{p2}_{file.filename}"
 
-        file_path = f"../uploads/{file_name}"
-        with open(file_path, "wb") as f:
+        filePath = f"../uploads/{file_name}"
+        with open(filePath, "wb") as f:
             f.write(file.file.read())
         return {
             "fileName" : file_name,
@@ -23,7 +24,7 @@ async def upload_file(file: UploadFile):
         return {"message": e.args}
 
 @uploadsRouter.get("/extract-data")
-def extract_data_from_file(fileName : str):
+async def extract_data_from_file(fileName : str):
     
     filePath = f"../uploads/{fileName}"
 
@@ -32,4 +33,24 @@ def extract_data_from_file(fileName : str):
     for page in doc: 
         text += page.get_text()
     
-    return {"extracted_content": text}
+    if(os.path.exists(filePath) and os.path.isfile(filePath)):
+        try:
+            os.remove(filePath)
+            print(f"File '{filePath}' deleted successfully")
+            return {"extracted_content": text}
+        
+        except PermissionError:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=f"Permission denied to delete file '{filePath}'"
+            )
+        except OSError as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error deleting file: {e}"
+            )
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"File '{filePath}' not found"
+        )
