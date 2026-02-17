@@ -10,6 +10,8 @@ from services.uploads import extract_data_from_file
 from services.url_ingest import get_url_ingest
 from services.yt_transcript import get_transcription_from_video_id
 
+from lib.prompt import prompt
+
 load_dotenv()
 
 BASE_URL = os.getenv("FAST_API_BASE_URL")
@@ -71,7 +73,7 @@ async def make_llm_call(req : LLMCallRequest):
 
         response = client.models.generate_content(
             model="gemini-3-flash-preview",
-            contents=f"Summarize the below text using analogy and an example, max word limit 100\n {fileContent} \n{urlContent} \n{ytTranscript}"
+            contents=f"{prompt}\nContent from the uploaded file:\n{fileContent}\nContent from a online resource URL:\n{urlContent}\nContent from a youtube video(transcript):\n{ytTranscript}"
         )
 
         # print(response.text)
