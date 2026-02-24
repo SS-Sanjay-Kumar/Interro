@@ -19,11 +19,11 @@ The test will be in the type of MCQ.
 I need the answers in the below format(JSON Object),
     {
         metadata:{
-            topic: "try to identify the topic that the user to trying to learn" //keywords are appreciated, not sentances. Keep it short
-            no_of_questions: int | str // give the number of questions here, i.e 'n'
-            message:"" //used only when necessary, or else empty
-            total_marks: str| int //total marks
-            minimum_marks : "minimum_marks_required_to_pass" //based on the topic's complexity, usecase and real world impact
+            topic: String(100) //"try to identify the topic that the user to trying to learn, adhering to the limit of 100 characters(safe range below 90)" //keywords are appreciated, not sentances. Keep it short
+            no_of_questions: int  // give the number of questions here, i.e 'n'
+            message: String(200)  | None//used only when necessary adhering to the limit of 200 characters(safe range below 190), or else empty
+            total_marks: int //total marks
+            minimum_marks : int //based on the topic's complexity, usecase and real world impact
             }
         questions:{
             q1:{
@@ -37,7 +37,7 @@ I need the answers in the below format(JSON Object),
                 correct_answer: {
                         a:"relevant answer" //consider a as the correct option, so correct option: correct answer
                         },
-                marks: int | str //based on the complexity of the question
+                marks: int //based on the complexity of the question
                 }
             q2:{},
             qn:{} // continues to qn, where n is decided by you

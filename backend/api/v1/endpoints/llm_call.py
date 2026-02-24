@@ -1,14 +1,20 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 import json
 from dotenv import load_dotenv
 from google import genai
+from pydantic import ValidationError
+from sqlalchemy.orm import Session
+from sqlalchemy.exc import SQLAlchemyError
 
+from lib.db import get_db
 from models.llm import LLMCallRequest
+from schemas.questions import SaveQuestionRequest 
 
 from services.exceptions import ServiceErrors
 from services.uploads import extract_data_from_file
 from services.url_ingest import get_url_ingest
 from services.yt_transcript import get_transcription_from_video_id
+from services.questions_service import save_question_service
 
 from lib.prompt import prompt
 
@@ -21,7 +27,7 @@ def check_health():
     return {"status": "ok"}
 
 @llmCallRouter.post("/", status_code=status.HTTP_200_OK)
-async def make_llm_call(req : LLMCallRequest):
+async def make_llm_call(req : LLMCallRequest, db: Session = Depends(get_db)):
 
         fileContent = ""
         urlContent = ""
@@ -68,6 +74,7 @@ async def make_llm_call(req : LLMCallRequest):
             )
         
         # llm cal
+        
         client = genai.Client()
 
         response = client.models.generate_content(
@@ -76,14 +83,30 @@ async def make_llm_call(req : LLMCallRequest):
         )
 
         raw_text = response.text.strip()
-
+        # Clean the text if the LLM adds markdown backticks
+        if raw_text.startswith("```"):
+            # Removes the first line (```json) and the last line (```)
+            raw_text = "\n".join(raw_text.split("\n")[1:-1])
+            
         try:
             parsed_json = json.loads(raw_text)
-        except json.JSONDecodeError as e:
+            validated_data = SaveQuestionRequest(**parsed_json)
+
+            saved_record = save_question_service(validated_data, db)
+        
+            return saved_record 
+        
+        except json.JSONDecodeError:
+            raise HTTPException(status_code=500, detail="LLM returned invalid JSON")
+        
+        except ValidationError as ve:
+            raise HTTPException(status_code=500, detail=f"LLM JSON didn't match schema: {ve}")
+        
+        except SQLAlchemyError as sqla_e:
+            db.rollback()
+            print("SQLAlchemy Error:", sqla_e)
+
             raise HTTPException(
-                status_code=500,
-                detail="LLM returned invalid JSON"
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="SQLAlchemy Error"
             )
-
-        return parsed_json
-
