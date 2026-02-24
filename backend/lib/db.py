@@ -4,11 +4,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
+import os
+from dotenv import load_dotenv
 
-# Format: postgresql://[user]:[password]@[host]:[port]/[database_name]
-DATABASE_URL = "postgresql://postgres:ramukyajnas@localhost:5433/interro"
+load_dotenv()
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(os.getenv("DATABASE_URL"))
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
