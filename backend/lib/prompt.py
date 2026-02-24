@@ -25,21 +25,23 @@ I need the answers in the below format(JSON Object),
             total_marks: str| int //total marks
             minimum_marks : "minimum_marks_required_to_pass" //based on the topic's complexity, usecase and real world impact
             }
-        q1:{
-            question: "Question goes here",
-            options: {
-                    a: "option a goes here"
-                    b: "option b goes here"
-                    c: "option c goes here"
-                    d: "option d goes here"
-                    },
-            correct_answer: {
-                    a:"relevant answer" //consider a as the correct option, so correct option: correct answer
-                    },
-            marks: int | str //based on the complexity of the question
-            }
-        q2:{},
-        qn:{} // continues to qn, where n is decided by you
+        questions:{
+            q1:{
+                question: "Question goes here",
+                options: {
+                        a: "option a goes here"
+                        b: "option b goes here"
+                        c: "option c goes here"
+                        d: "option d goes here"
+                        },
+                correct_answer: {
+                        a:"relevant answer" //consider a as the correct option, so correct option: correct answer
+                        },
+                marks: int | str //based on the complexity of the question
+                }
+            q2:{},
+            qn:{} // continues to qn, where n is decided by you
+        }
     }
 
 # IMPORTANT NOTE:
