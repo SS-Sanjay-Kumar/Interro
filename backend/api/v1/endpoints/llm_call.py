@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-import os
+import json
 from dotenv import load_dotenv
 from google import genai
 
@@ -14,7 +14,6 @@ from lib.prompt import prompt
 
 load_dotenv()
 
-BASE_URL = os.getenv("FAST_API_BASE_URL")
 llmCallRouter = APIRouter()
 
 @llmCallRouter.get("/health", status_code = status.HTTP_200_OK)
@@ -29,7 +28,7 @@ async def make_llm_call(req : LLMCallRequest):
         ytTranscript = ""
         
         # uploads
-        if req.fileName!="":
+        if req.fileName:
             try:
                 fileContent = await extract_data_from_file(req.fileName)
             except PermissionError:
@@ -49,7 +48,7 @@ async def make_llm_call(req : LLMCallRequest):
             )
         
         # url ingest
-        if req.resourceURL!="":
+        if req.resourceURL:
             try:
                 urlContent = await  get_url_ingest(req.resourceURL)
             except ServiceErrors as se:
@@ -59,7 +58,7 @@ async def make_llm_call(req : LLMCallRequest):
             )
 
         # yt transript
-        if req.ytVideoId!="":
+        if req.ytVideoId:
             try:
                 ytTranscript = await get_transcription_from_video_id(req.ytVideoId)
             except ServiceErrors as se:
@@ -76,5 +75,15 @@ async def make_llm_call(req : LLMCallRequest):
             contents=f"{prompt}\nContent from the uploaded file:\n{fileContent}\nContent from a online resource URL:\n{urlContent}\nContent from a youtube video(transcript):\n{ytTranscript}"
         )
 
-        # print(response.text)
-        return {"response":response.text}
+        raw_text = response.text.strip()
+
+        try:
+            parsed_json = json.loads(raw_text)
+        except json.JSONDecodeError as e:
+            raise HTTPException(
+                status_code=500,
+                detail="LLM returned invalid JSON"
+            )
+
+        return parsed_json
+
